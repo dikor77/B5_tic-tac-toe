@@ -1,16 +1,12 @@
 from random import randrange
-from tabnanny import check
 
-
-#генерирую поле
-N = 3
-field = [['-' for i in range(N)] for j in range(N)]
 
 #печать поля
 def fprint(field):
     print('  0 1 2')
     for i in range(N):
         print(i, ' '.join(field[i]))
+
 
 #запросить координаты в формате 
 def user_input():
@@ -27,6 +23,7 @@ def user_input():
         else:
             print("Ваш ввод не распознан, попробуй еще")
 
+
 #True если ячейка свободная
 def empty_cell(row, col):
     cell = field[row][col]
@@ -34,6 +31,7 @@ def empty_cell(row, col):
         return True
     else:
         return False
+
 
 #подсчет свободных ячеек
 def count_empty_cells():
@@ -43,6 +41,7 @@ def count_empty_cells():
             if cell == '-':
                 count += 1
     return count
+
 
 def set_zero():
     val = randrange(0, count_empty_cells())
@@ -57,6 +56,7 @@ def set_zero():
                     field[row][col] = 'O'
                     return
 
+
 #проверка строки
 def check_row(row, sym):
     count = 0
@@ -66,6 +66,8 @@ def check_row(row, sym):
             count += 1
     
     return count == 3
+
+
 #проверка колонки
 def check_col(col, sym):
     count = 0
@@ -75,6 +77,7 @@ def check_col(col, sym):
             count += 1
     
     return count == 3
+
 
 #проверка диагонали 1
 def check_diag1(sym):
@@ -86,6 +89,7 @@ def check_diag1(sym):
     
     return count == 3
 
+
 #проверка диагонали 2
 def check_diag2(sym):
     count = 0
@@ -96,9 +100,17 @@ def check_diag2(sym):
     
     return count == 3
 
+
 def check_win(sym):
     val = any([check_row(0, sym), check_row(1, sym), check_row(2, sym), check_col(0, sym), check_col(1, sym), check_col(2, sym), check_diag1(sym), check_diag2(sym)])
     return val
+
+
+
+#генерирую поле
+N = 3
+field = [['-' for i in range(N)] for j in range(N)]
+
 
 #цикл пока есть свободные ячейки
 while count_empty_cells() > 0:
