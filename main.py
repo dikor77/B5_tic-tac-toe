@@ -43,6 +43,7 @@ def count_empty_cells():
     return count
 
 
+#мой ход, нолик располагается случайным образом
 def set_zero():
     val = randrange(0, count_empty_cells())
 
@@ -57,7 +58,7 @@ def set_zero():
                     return
 
 
-#проверка строки
+#проверка строки на выигрыш
 def check_row(row, sym):
     count = 0
     for col in range(N):
@@ -68,7 +69,7 @@ def check_row(row, sym):
     return count == 3
 
 
-#проверка колонки
+#проверка колонки на выигрыш
 def check_col(col, sym):
     count = 0
     for row in range(N):
@@ -79,7 +80,7 @@ def check_col(col, sym):
     return count == 3
 
 
-#проверка диагонали 1
+#проверка диагонали 1 на выигрыш
 def check_diag1(sym):
     count = 0
     for i in range(N):
@@ -90,7 +91,7 @@ def check_diag1(sym):
     return count == 3
 
 
-#проверка диагонали 2
+#проверка диагонали 2 на выигрыш
 def check_diag2(sym):
     count = 0
     for i in range(N):
@@ -101,9 +102,18 @@ def check_diag2(sym):
     return count == 3
 
 
+#проверка на выигрыш всех комбинаций
 def check_win(sym):
-    val = any([check_row(0, sym), check_row(1, sym), check_row(2, sym), check_col(0, sym), check_col(1, sym), check_col(2, sym), check_diag1(sym), check_diag2(sym)])
-    return val
+    check = []
+
+    for i in range(N):
+        check.append(check_row(i, sym))
+        check.append(check_col(i, sym))
+    
+    check.append(check_diag1(sym))
+    check.append(check_diag2(sym))
+
+    return any(check)
 
 
 
@@ -123,6 +133,7 @@ while count_empty_cells() > 0:
     field[row][col] = 'X'
     #проверка на выигрыш
     if check_win('X'):
+        fprint(field)
         print("Поздравляю, вы выиграли")
         break
     
@@ -132,7 +143,8 @@ while count_empty_cells() > 0:
         set_zero()
         #проверка на выигрыш
     if check_win('O'):
-        print("Поздравляю, вы выиграли")
+        fprint(field)
+        print("Поздравляю, вы проиграли")
         break
 
 print("Конец игры")
