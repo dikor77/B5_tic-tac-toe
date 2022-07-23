@@ -1,4 +1,5 @@
 from random import randrange
+from tabnanny import check
 
 
 #генерирую поле
@@ -56,8 +57,48 @@ def set_zero():
                     field[row][col] = 'O'
                     return
 
+#проверка строки
+def check_row(row, sym):
+    count = 0
+    for col in range(N):
+        val = field[row][col]
+        if(val == sym):
+            count += 1
+    
+    return count == 3
+#проверка колонки
+def check_col(col, sym):
+    count = 0
+    for row in range(N):
+        val = field[row][col]
+        if(val == sym):
+            count += 1
+    
+    return count == 3
 
+#проверка диагонали 1
+def check_diag1(sym):
+    count = 0
+    for i in range(N):
+        val = field[i][i]
+        if(val == sym):
+            count += 1
+    
+    return count == 3
 
+#проверка диагонали 2
+def check_diag2(sym):
+    count = 0
+    for i in range(N):
+        val = field[i][N - i - 1]
+        if(val == sym):
+            count += 1
+    
+    return count == 3
+
+def check_win(sym):
+    val = any([check_row(0, sym), check_row(1, sym), check_row(2, sym), check_col(0, sym), check_col(1, sym), check_col(2, sym), check_diag1(sym), check_diag2(sym)])
+    return val
 
 #цикл пока есть свободные ячейки
 while count_empty_cells() > 0:
@@ -68,10 +109,18 @@ while count_empty_cells() > 0:
     #размещаю крестик на поле
     row, col = user_cross[0], user_cross[1]
     field[row][col] = 'X'
+    #проверка на выигрыш
+    if check_win('X'):
+        print("Поздравляю, вы выиграли")
+        break
     
     #проверка перед размещением нолика
     if(count_empty_cells() > 0):
         #ставим нолик
         set_zero()
+        #проверка на выигрыш
+    if check_win('O'):
+        print("Поздравляю, вы выиграли")
+        break
 
-print("Конец игры, ничья")
+print("Конец игры")
